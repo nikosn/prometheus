@@ -180,7 +180,7 @@ func (c *Client) buildCommand(q *prompb.Query) (string, error) {
 	matchers = append(matchers, fmt.Sprintf("time >= %vms", q.StartTimestampMs))
 	matchers = append(matchers, fmt.Sprintf("time <= %vms", q.EndTimestampMs))
 
-	return fmt.Sprintf("SELECT value %s WHERE %v GROUP BY *", from, strings.Join(matchers, " AND ")), nil
+	return fmt.Sprintf("SELECT mean_value %s WHERE %v GROUP BY *", from, strings.Join(matchers, " AND ")), nil
 }
 
 func escapeSingleQuotes(str string) string {
@@ -242,10 +242,10 @@ func tagsToLabelPairs(name string, tags map[string]string) []prompb.Label {
 			Value: v,
 		})
 	}
-	pairs = append(pairs, prompb.Label{
-		Name:  model.MetricNameLabel,
-		Value: name,
-	})
+//	pairs = append(pairs, prompb.Label{
+//		Name:  model.MetricNameLabel,
+//		Value: name,
+//	})
 	return pairs
 }
 
